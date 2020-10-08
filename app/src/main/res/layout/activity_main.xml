@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00B8D4"
+    android:theme="@style/Theme.MaterialComponents"
     tools:context=".MainActivity">
 
     <TextView
@@ -19,13 +20,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/startButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#DCE775"
+        android:background="#FFF176"
         android:text="@string/start_game"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
+        app:backgroundTint="#AED581"
+        app:iconTint="#FFF176"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -62,6 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:backgroundTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/heigthNumber"
         app:layout_constraintStart_toEndOf="@+id/height"

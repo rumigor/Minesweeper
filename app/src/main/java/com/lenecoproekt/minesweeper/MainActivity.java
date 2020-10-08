@@ -20,9 +20,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private TextView height;
     private TextView width;
     private TextView mines;
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -34,10 +32,10 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         width = findViewById(R.id.widthNumber);
         mines = findViewById(R.id.minesProcentNumber);
         heightBar.setProgress(10);
-        heightBar.setMax(12);
+        heightBar.setMax(50);
         height.setText(String.valueOf(heightBar.getProgress()));
         widthBar.setProgress(10);
-        widthBar.setMax(12);
+        widthBar.setMax(50);
         width.setText(String.valueOf(widthBar.getProgress()));
         minesBar.setProgress(10);
         minesBar.setMax(30);
@@ -58,7 +56,13 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
+        if (seekBar == heightBar) {
+            height.setText(String.valueOf(seekBar.getProgress()));
+        } else if (seekBar == widthBar){
+            width.setText(String.valueOf(seekBar.getProgress()));
+        } else if (seekBar == minesBar) {
+            mines.setText(String.valueOf(seekBar.getProgress()));
+        }
     }
 
     @Override

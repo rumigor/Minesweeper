@@ -9,4 +9,6 @@
     <string name="minespr">minesPr</string>
     <string name="gameOver">You loose!</string>
     <string name="success">You win!</string>
+    <string name="save_record">Save Record</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.lenecoproekt.minesweeper.logic.GameObject
 import java.io.BufferedWriter
 import java.io.IOException
 import java.io.OutputStreamWriter

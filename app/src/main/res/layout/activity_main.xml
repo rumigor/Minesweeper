@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#4DD0E1"
     android:theme="@style/Theme.MaterialComponents"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <TextView
         android:id="@+id/fieldSize"
@@ -63,7 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/height" />
 
     <SeekBar
-        android:id="@+id/heightChooser"
+        android:id="@+id/heightBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toTopOf="@+id/height" />
 
     <SeekBar
-        android:id="@+id/widthChooser"
+        android:id="@+id/widthBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/width" />
 
     <SeekBar
-        android:id="@+id/minesProcent"
+        android:id="@+id/minesBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

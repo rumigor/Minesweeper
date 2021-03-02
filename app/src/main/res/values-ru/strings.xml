@@ -12,4 +12,5 @@
     <string name="success">Вы победили!</string>
     <string name="save_record">Сохранить рекорд</string>
     <string name="settings">Настройки</string>
+    <string name="ok_bth_title">OK</string>
 </resources>

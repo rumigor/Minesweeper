@@ -4,13 +4,16 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import java.util.*
 
-class Logic(val height: Int, val width: Int, val minesNumber: Int) {
+class Logic {
+    private val height = FieldParams.height
+    private val width = FieldParams.width
+    private val minesNumber = FieldParams.mines
     private val gameField: Array<Array<GameObject?>> = Array(height) { arrayOfNulls(width) }
     private var closedTiles = height * width
-    private var score = 0
-    private var gameOver = false
-    private var win = false
-    private var flagCounter = minesNumber
+    var score = 0
+    var gameOver = false
+    var win = false
+    var flagCounter = minesNumber
 
     init {
         fillGameField()
@@ -70,6 +73,7 @@ class Logic(val height: Int, val width: Int, val minesNumber: Int) {
         gameField[i][j]?.let {
             if (it.isMine) {
                 gameOver = true
+                gameLost()
                 return gameField
             } else {
                 closedTiles--
@@ -95,7 +99,16 @@ class Logic(val height: Int, val width: Int, val minesNumber: Int) {
             }
         }
         if (closedTiles == minesNumber) win = true
+        getGameField()
         return gameField
+    }
+
+    private fun gameLost() {
+        for (i in 0 until height) {
+            for (j in 0 until width) {
+                gameField[i][j]?.isOpen = true
+            }
+        }
     }
 
     private fun getNeighbors(gameObject: GameObject): List<GameObject> {
@@ -134,7 +147,21 @@ class Logic(val height: Int, val width: Int, val minesNumber: Int) {
                 }
             }
         }
+        getGameField()
         return gameField
     }
-
+    fun reload(): Array<Array<GameObject?>> {
+        for (i in 0 until height) {
+            for (j in 0 until width) {
+                gameField[i][j] = null
+            }
+        }
+        closedTiles = height * width
+        score = 0
+        gameOver = false
+        win = false
+        flagCounter = minesNumber
+        fillGameField()
+        return gameField
+    }
 }

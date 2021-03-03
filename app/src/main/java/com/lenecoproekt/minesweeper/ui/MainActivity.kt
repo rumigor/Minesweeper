@@ -9,6 +9,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AppCompatActivity
 import com.lenecoproekt.minesweeper.*
 import com.lenecoproekt.minesweeper.databinding.ActivityMainBinding
+import com.lenecoproekt.minesweeper.logic.FieldParams
 
 class MainActivity : AppCompatActivity(), OnSeekBarChangeListener {
     private val ui : ActivityMainBinding by lazy {ActivityMainBinding.inflate(layoutInflater)}
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity(), OnSeekBarChangeListener {
         sharedPreferences.edit().putInt(MINES, ui.minesBar.progress).apply()
         val startButton = findViewById<Button>(R.id.startButton)
         startButton.setOnClickListener {
+            FieldParams.height = ui.heightBar.progress
+            FieldParams.width = ui.widthBar.progress
+            FieldParams.mines = (FieldParams.height*FieldParams.width*ui.minesBar.progress)/100
             val intent = Intent(this@MainActivity, GameActivity::class.java)
             startActivity(intent)
         }
@@ -59,14 +63,17 @@ class MainActivity : AppCompatActivity(), OnSeekBarChangeListener {
             ui.heightBar -> {
                 ui.heigthNumber.text = seekBar.progress.toString()
                 sharedPreferences.edit().putInt(HEIGHT, ui.heightBar.progress).apply()
+                FieldParams.height = ui.heightBar.progress
             }
             ui.widthBar -> {
                 ui.widthNumber.text = seekBar.progress.toString()
+                FieldParams.width = ui.widthBar.progress
                 sharedPreferences.edit().putInt(WIDTH, ui.widthBar.progress).apply()
             }
             ui.minesBar -> {
                 ui.minesProcentNumber.text = seekBar.progress.toString()
                 sharedPreferences.edit().putInt(MINES, ui.minesBar.progress).apply()
+                FieldParams.mines = FieldParams.height*FieldParams.width*ui.minesBar.progress/100
             }
         }
     }

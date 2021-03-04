@@ -13,4 +13,7 @@
     <string name="save_record">Сохранить рекорд</string>
     <string name="settings">Настройки</string>
     <string name="ok_bth_title">OK</string>
+    <string name="title_dialog">HighScore record</string>
+    <string name="message_dialog">Enter your name</string>
+    <string name="cancel">Cancel</string>
 </resources>

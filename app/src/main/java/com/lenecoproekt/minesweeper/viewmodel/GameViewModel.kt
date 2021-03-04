@@ -14,7 +14,7 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlin.coroutines.CoroutineContext
 
 
-class GameViewModel() : ViewModel(), CoroutineScope {
+class GameViewModel : ViewModel(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext by lazy {
         Dispatchers.Default + Job()

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.lenecoproekt.minesweeper.*
 import com.lenecoproekt.minesweeper.databinding.ActivityGameBinding
+import com.lenecoproekt.minesweeper.logic.FieldParams
 import com.lenecoproekt.minesweeper.logic.GameObject
 import com.lenecoproekt.minesweeper.room.HighScore
 import com.lenecoproekt.minesweeper.room.HighScoreDatabase
@@ -27,12 +28,11 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
 
     private lateinit var dataJob: Job
     private lateinit var errorJob: Job
-
     private var height = 0
     private var width = 0
     private var mines = 0
-    private val ui : ActivityGameBinding by lazy{ActivityGameBinding.inflate(layoutInflater)}
-    private val viewModel : GameViewModel by lazy{ViewModelProvider(this).get(GameViewModel::class.java)}
+    private val ui: ActivityGameBinding by lazy { ActivityGameBinding.inflate(layoutInflater) }
+    private val viewModel: GameViewModel by lazy { ViewModelProvider(this).get(GameViewModel::class.java) }
     private lateinit var cells: Array<Array<TextView?>>
     private var isGameStopped = false
     private var scoreN = 0
@@ -61,12 +61,9 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun startGame() {
-        val sharedPref = getSharedPreferences(APP_PREF, MODE_PRIVATE)
-        sharedPref?.let {
-            height = it.getInt(HEIGHT, 10)
-            width = it.getInt(WIDTH, 10)
-            mines = height*width*it.getInt(MINES, 10)/100
-        }
+        height = FieldParams.height
+        width = FieldParams.width
+        mines = FieldParams.mines
         ui.mineIco.text = "\uD83D\uDCA9"
         ui.flagIco.text = "\uD83D\uDC31"
         ui.scoreIco.text = "\uD83D\uDC53"
@@ -79,17 +76,15 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
         ui.restart.setOnClickListener { finish() }
         ui.smile.setOnClickListener {
             viewModel.reload()
-            recreate() }
+            recreate()
+        }
         ui.chronometer2.base = SystemClock.elapsedRealtime()
         ui.chronometer2.start()
         ui.minesNumber.text = mines.toString()
-        ui.saveRecord.setOnClickListener{
-            if (win){
-                launch {
-                    val database = HighScoreDatabase.getInstance(application)
-                    val highScoreDao = database.highScoreDao
-                    highScoreDao.insertAll(HighScore())
-                }
+        ui.saveRecord.setOnClickListener {
+            if (viewModel.isWin()) {
+                val recordDialogFragment = RecordDialogFragment()
+                recordDialogFragment.show(supportFragmentManager, "recordDialog")
             }
         }
         for (i in 0 until height) {
@@ -108,7 +103,7 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
                 }
                 cell.setOnLongClickListener {
                     if (!isGameStopped)
-                    viewModel.flagOn(i, j)
+                        viewModel.flagOn(i, j)
                     true
                 }
             }
@@ -117,10 +112,9 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
     }
 
 
-
     private fun setBackgroundForCells(cell: TextView?, size1: Int, size2: Int, size3: Int, size4: Int, size5: Int, size6: Int) {
 
-        cell?.background = when (height){
+        cell?.background = when (height) {
             in 0 until 12 -> ContextCompat.getDrawable(this, size1)
             in 12 until 15 -> ContextCompat.getDrawable(this, size2)
             in 15 until 20 -> ContextCompat.getDrawable(this, size3)
@@ -147,18 +141,18 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun renderData(data: Array<Array<GameObject?>>) {
-        for (i in 0 until height){
-            for (j in 0 until width){
+        for (i in 0 until height) {
+            for (j in 0 until width) {
                 data[i][j]?.let {
-                    if (it.isOpen){
-                        if (it.isMine){
-                            cells[i][j]?.run{
+                    if (it.isOpen) {
+                        if (it.isMine) {
+                            cells[i][j]?.run {
                                 setBackgroundForCells(cells[i][j], R.drawable.red50, R.drawable.bomb40, R.drawable.red30, R.drawable.bomb20, R.drawable.red15, R.drawable.bomb10)
                                 text = "\uD83D\uDCA9"
                             }
-                        } else cells[i][j]?.run{
+                        } else cells[i][j]?.run {
                             setBackgroundForCells(cells[i][j], R.drawable.open50, R.drawable.open40, R.drawable.open30, R.drawable.open20, R.drawable.open15, R.drawable.open10)
-                            if (it.countMineNeighbors > 0){
+                            if (it.countMineNeighbors > 0) {
                                 text = it.countMineNeighbors.toString()
                                 setNumberColor(cells[i][j], it.countMineNeighbors)
                             } else text = "\uD83D\uDC3E"
@@ -167,8 +161,8 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
                         cells[i][j]?.text = ""
                         setBackgroundForCells(cells[i][j], R.drawable.blue50, R.drawable.blue40, R.drawable.blue30, R.drawable.blue20, R.drawable.blue15, R.drawable.blue10)
                     }
-                    if (it.isFlag){
-                        cells[i][j]?.run{
+                    if (it.isFlag) {
+                        cells[i][j]?.run {
                             setBackgroundForCells(cells[i][j], R.drawable.green50, R.drawable.green40, R.drawable.green30, R.drawable.green20, R.drawable.green15, R.drawable.green10)
                             text = "\uD83D\uDC31"
                         }
@@ -178,14 +172,14 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
         }
         ui.flagsNumber.text = viewModel.getFlags().toString()
         ui.score.text = viewModel.getScore().toString()
-        if (viewModel.isWin())  {
+        if (viewModel.isWin()) {
             Toast.makeText(this, "You win!", Toast.LENGTH_LONG).show()
             isGameStopped = true
             ui.chronometer2.stop()
             ui.smile.setImageResource(R.drawable.smiling_cat)
             win = true
         }
-        if (viewModel.isDefeat())  {
+        if (viewModel.isDefeat()) {
             Toast.makeText(this, "You loose!", Toast.LENGTH_LONG).show()
             isGameStopped = true
             ui.chronometer2.stop()
@@ -210,5 +204,15 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
     override fun onDestroy() {
         super.onDestroy()
         coroutineContext.cancel()
+    }
+
+    public fun onDialogResult(resultDialog: String) {
+        launch {
+            val database = HighScoreDatabase.getInstance(application)
+            val highScoreDao = database.highScoreDao
+            var highScore = HighScore(resultDialog, "$height X $width", ui.minesNumber.text.toString().toInt(),
+                    ui.chronometer2.text.toString(), viewModel.getScore())
+            highScoreDao.insertAll(highScore)
+        }
     }
 }

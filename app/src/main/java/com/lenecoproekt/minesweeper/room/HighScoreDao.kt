@@ -10,8 +10,6 @@ interface HighScoreDao {
     @Query("SELECT * FROM highscore")
     suspend fun getAll(): List<HighScore>
 
-    @Query("SELECT * FROM highscore WHERE uid IN (:highScoreIds)")
-    suspend fun loadAllByIds(highScoreIds: IntArray): List<HighScore>
 
     @Query("SELECT * FROM highscore WHERE name LIKE :name")
     suspend fun findByName(name: String): HighScore

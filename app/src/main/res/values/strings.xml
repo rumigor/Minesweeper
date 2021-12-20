@@ -15,4 +15,10 @@
     <string name="title_dialog">HighScore record</string>
     <string name="message_dialog">Enter your name</string>
     <string name="cancel">Cancel</string>
+    <string name="high_score">High Score</string>
+    <string name="name">Name</string>
+    <string name="field_size">Field Size</string>
+    <string name="time">Time</string>
+    <string name="score">Score</string>
+    <string name="mines2">Mines</string>
 </resources>

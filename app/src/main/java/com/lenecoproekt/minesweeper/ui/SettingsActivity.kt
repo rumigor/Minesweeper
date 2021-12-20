@@ -15,10 +15,10 @@ class SettingsActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         super.onCreate(savedInstanceState)
         setContentView(ui.root)
         ui.heightBar.progress = 10
-        ui.heightBar.max = 50
+        ui.heightBar.max = 30
         ui.heigthNumber.text = ui.heightBar.progress.toString()
         ui.widthBar.progress = 10
-        ui.widthBar.max = 50
+        ui.widthBar.max = 30
         ui.widthNumber.text = ui.widthBar.progress.toString()
         ui.minesBar.progress = 10
         ui.minesBar.max = 30

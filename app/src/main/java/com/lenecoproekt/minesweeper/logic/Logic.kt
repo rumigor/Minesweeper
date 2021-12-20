@@ -1,10 +1,12 @@
 package com.lenecoproekt.minesweeper.logic
 
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import java.util.*
+import kotlin.coroutines.CoroutineContext
 
-class Logic {
+class Logic : CoroutineScope {
     private val height = FieldParams.height
     private val width = FieldParams.width
     private val minesNumber = FieldParams.mines
@@ -15,9 +17,22 @@ class Logic {
     var win = false
     var flagCounter = minesNumber
 
+    override val coroutineContext: CoroutineContext by lazy {
+        Dispatchers.Default + Job()
+    }
+
     init {
         fillGameField()
+        launch {timer() }
     }
+
+    private suspend fun timer() {
+        while (!gameOver && !win) {
+            delay(1000)
+            score -= 1
+        }
+    }
+
 
     fun getGameField(): ReceiveChannel<Result> =
             Channel<Result>(Channel.CONFLATED).apply {
@@ -150,6 +165,7 @@ class Logic {
         getGameField()
         return gameField
     }
+
     fun reload(): Array<Array<GameObject?>> {
         for (i in 0 until height) {
             for (j in 0 until width) {
@@ -162,6 +178,7 @@ class Logic {
         win = false
         flagCounter = minesNumber
         fillGameField()
+        launch { timer() }
         return gameField
     }
 }

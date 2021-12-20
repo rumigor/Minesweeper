@@ -92,10 +92,11 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
             tableRow.layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT)
             for (j in 0 until width) {
                 val cell = TextView(this)
-                cell.textSize = 24 / ((width + height).toFloat() / 20)
+//                cell.textSize = 24 / ((width + height).toFloat() / 20)
                 cell.textAlignment = View.TEXT_ALIGNMENT_CENTER
                 cells[i][j] = cell
                 tableRow.addView(cell, j)
+
                 cell.setOnClickListener {
                     if (!isGameStopped) {
                         viewModel.openTile(i, j)

@@ -11,7 +11,9 @@ import com.lenecoproekt.minesweeper.room.HighScoreDao
 import kotlinx.coroutines.runBlocking
 
 class HighScoreAdapter (highScoreDao: HighScoreDao) : RecyclerView.Adapter<HighScoreAdapter.HighScoreViewHolder>() {
-    var records = runBlocking {highScoreDao.getAll()}
+    var records = runBlocking {highScoreDao.getAll().sortedByDescending {
+        it.score
+    }}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HighScoreAdapter.HighScoreViewHolder {
         val inflater = LayoutInflater.from(parent.context)

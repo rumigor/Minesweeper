@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.lenecoproekt.minesweeper.*
 import com.lenecoproekt.minesweeper.databinding.ActivityGameBinding
-import com.lenecoproekt.minesweeper.logic.FieldParams
 import com.lenecoproekt.minesweeper.logic.GameObject
 import com.lenecoproekt.minesweeper.room.HighScore
 import com.lenecoproekt.minesweeper.room.HighScoreDatabase
@@ -61,9 +60,9 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun startGame() {
-        height = FieldParams.height
-        width = FieldParams.width
-        mines = FieldParams.mines
+        height = AppPreferences.height!!
+        width = AppPreferences.width!!
+        mines = (AppPreferences.height!!* AppPreferences.width!!*AppPreferences.mines!!)/100
         ui.mineIco.text = "\uD83D\uDCA9"
         ui.flagIco.text = "\uD83D\uDC31"
         ui.scoreIco.text = "\uD83D\uDC53"
@@ -73,7 +72,10 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
         ui.gameField.isStretchAllColumns = true
         ui.gameField.isShrinkAllColumns = true
         cells = Array(height) { arrayOfNulls(width) }
-        ui.restart.setOnClickListener { finish() }
+        ui.restart.setOnClickListener {
+            startActivity(SettingsActivity.getStartIntent(this))
+            finishActivity(1)
+        }
         ui.smile.setOnClickListener {
             viewModel.reload()
             recreate()
@@ -89,7 +91,7 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
         }
         for (i in 0 until height) {
             val tableRow = TableRow(this)
-            tableRow.layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT)
+            tableRow.layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT)
             for (j in 0 until width) {
                 val cell = TextView(this)
                 cell.textSize = 24 / ((width + height).toFloat() / 20)
@@ -109,20 +111,14 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
             }
             ui.gameField.addView(tableRow, i)
         }
-    }
-
-
-    private fun setBackgroundForCells(cell: TextView?, size1: Int, size2: Int, size3: Int, size4: Int, size5: Int, size6: Int) {
-
-        cell?.background = when (height) {
-            in 0 until 12 -> ContextCompat.getDrawable(this, size1)
-            in 12 until 15 -> ContextCompat.getDrawable(this, size2)
-            in 15 until 20 -> ContextCompat.getDrawable(this, size3)
-            in 20 until 30 -> ContextCompat.getDrawable(this, size4)
-            in 30 until 40 -> ContextCompat.getDrawable(this, size5)
-            else -> ContextCompat.getDrawable(this, size6)
+        ui.homeButton.setOnClickListener{
+            startActivity(MainActivity.getStartIntent(this))
+            finishActivity(1)
         }
     }
+
+
+
 
     private fun setNumberColor(cell: TextView?, number: Int) {
         when (number) {
@@ -130,6 +126,8 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
             3 -> cell?.setTextColor(Color.RED)
             4 -> cell?.setTextColor(Color.MAGENTA)
             1 -> cell?.setTextColor(Color.DKGRAY)
+            5-> cell?.setTextColor(Color.CYAN)
+            6-> cell?.setTextColor(Color.YELLOW)
             else -> cell!!.setTextColor(Color.BLUE)
         }
     }
@@ -147,11 +145,11 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
                     if (it.isOpen) {
                         if (it.isMine) {
                             cells[i][j]?.run {
-                                setBackgroundForCells(cells[i][j], R.drawable.red50, R.drawable.bomb40, R.drawable.red30, R.drawable.bomb20, R.drawable.red15, R.drawable.bomb10)
+                                cells[i][j]?.setBackgroundResource(R.drawable.cellbomb)
                                 text = "\uD83D\uDCA9"
                             }
                         } else cells[i][j]?.run {
-                            setBackgroundForCells(cells[i][j], R.drawable.open50, R.drawable.open40, R.drawable.open30, R.drawable.open20, R.drawable.open15, R.drawable.open10)
+                            cells[i][j]?.setBackgroundResource(R.drawable.cellopen)
                             if (it.countMineNeighbors > 0) {
                                 text = it.countMineNeighbors.toString()
                                 setNumberColor(cells[i][j], it.countMineNeighbors)
@@ -159,11 +157,11 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
                         }
                     } else {
                         cells[i][j]?.text = ""
-                        setBackgroundForCells(cells[i][j], R.drawable.blue50, R.drawable.blue40, R.drawable.blue30, R.drawable.blue20, R.drawable.blue15, R.drawable.blue10)
+                        cells[i][j]?.setBackgroundResource(R.drawable.closedcell)
                     }
                     if (it.isFlag) {
                         cells[i][j]?.run {
-                            setBackgroundForCells(cells[i][j], R.drawable.green50, R.drawable.green40, R.drawable.green30, R.drawable.green20, R.drawable.green15, R.drawable.green10)
+                            cells[i][j]?.setBackgroundResource(R.drawable.cellflag)
                             text = "\uD83D\uDC31"
                         }
                     }
@@ -176,7 +174,16 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
             Toast.makeText(this, "You win!", Toast.LENGTH_LONG).show()
             isGameStopped = true
             ui.chronometer2.stop()
+            for (cell in cells){
+                for (c in cell){
+                    if (c?.text == ""){
+                        c.setBackgroundResource(R.drawable.cellflag)
+                        c.text = "\uD83D\uDC31"
+                    }
+                }
+            }
             ui.smile.setImageResource(R.drawable.smiling_cat)
+
             win = true
         }
         if (viewModel.isDefeat()) {

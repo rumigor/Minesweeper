@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B2EBF2"
     tools:context=".ui.HighScoreActivity">
 
     <TextView
@@ -83,10 +84,10 @@
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+        tools:listitem="@layout/item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

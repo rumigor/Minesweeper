@@ -5,19 +5,19 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4DD0E1"
+    android:background="#B2EBF2"
     android:orientation="vertical"
     android:theme="@style/Theme.MaterialComponents"
-    tools:context=".ui.MainActivity" >
+    tools:context=".ui.MainActivity">
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:src="@drawable/lapy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/lapy"
         tools:srcCompat="@drawable/lapy" />
 
     <TextView
@@ -26,14 +26,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="CatSweeper"
-        android:textColor="#FF9800"
+        android:textColor="#FF8A65"
         android:textSize="36sp"
+        android:textStyle="normal|italic"
+        android:typeface="serif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <Button
         android:id="@+id/startGameButton"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"

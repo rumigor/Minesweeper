@@ -1,13 +1,14 @@
 package com.lenecoproekt.minesweeper.logic
 
+import com.lenecoproekt.minesweeper.AppPreferences
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import java.util.*
 
 class Logic {
-    private val height = FieldParams.height
-    private val width = FieldParams.width
-    private val minesNumber = FieldParams.mines
+    private val height = AppPreferences.height!!
+    private val width = AppPreferences.width!!
+    private val minesNumber = (AppPreferences.height!!* AppPreferences.width!!*AppPreferences.mines!!)/100
     private val gameField: Array<Array<GameObject?>> = Array(height) { arrayOfNulls(width) }
     private var closedTiles = height * width
     var score = 0

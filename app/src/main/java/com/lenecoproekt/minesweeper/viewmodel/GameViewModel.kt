@@ -2,7 +2,6 @@ package com.lenecoproekt.minesweeper.viewmodel
 
 
 import androidx.lifecycle.ViewModel
-import com.lenecoproekt.minesweeper.logic.FieldParams
 import com.lenecoproekt.minesweeper.logic.GameObject
 import com.lenecoproekt.minesweeper.logic.Logic
 import com.lenecoproekt.minesweeper.logic.Result

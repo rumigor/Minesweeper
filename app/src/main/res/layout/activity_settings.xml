@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4DD0E1"
+    android:background="#B2EBF2"
     tools:context=".ui.SettingsActivity">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="250dp"
         android:text="@string/gamefield_size"
-        android:textColor="#FFEBEE"
+        android:textColor="#FFB74D"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,10 +26,10 @@
         android:layout_height="wrap_content"
         android:background="#FFF176"
         android:text="@string/start_game"
-        android:textColor="#009688"
+        android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:backgroundTint="#AED581"
+        app:backgroundTint="#FFB74D"
         app:iconTint="#FFF176"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="@string/height"
-        android:textColor="#FFEBEE"
+        android:textColor="#FFB74D"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldSize" />
@@ -57,17 +57,17 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/width"
-        android:textColor="#FFEBEE"
+        android:textColor="#FFB74D"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/height" />
 
     <SeekBar
         android:id="@+id/heightBar"
+        style="@android:style/Widget.SeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:backgroundTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/heigthNumber"
         app:layout_constraintStart_toEndOf="@+id/height"
@@ -75,6 +75,7 @@
 
     <SeekBar
         android:id="@+id/widthBar"
+        style="@android:style/Widget.SeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,13 +90,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/mines"
-        android:textColor="#FFEBEE"
+        android:textColor="#FFB74D"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/width" />
 
     <SeekBar
         android:id="@+id/minesBar"
+        style="@android:style/Widget.SeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -113,7 +115,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textview"
-        android:textColor="#FFEBEE"
+        android:textColor="#FFB74D"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/height" />
@@ -123,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textview"
-        android:textColor="#FFEBEE"
+        android:textColor="#FFB74D"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/width" />
@@ -133,7 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/minespr"
-        android:textColor="#FFEBEE"
+        android:textColor="#FFB74D"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/mines" />

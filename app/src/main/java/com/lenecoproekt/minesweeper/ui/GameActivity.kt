@@ -125,10 +125,10 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
             2 -> cell?.setTextColor(Color.GREEN)
             3 -> cell?.setTextColor(Color.RED)
             4 -> cell?.setTextColor(Color.MAGENTA)
-            1 -> cell?.setTextColor(Color.DKGRAY)
+            1 -> cell?.setTextColor(Color.BLUE)
             5-> cell?.setTextColor(Color.CYAN)
             6-> cell?.setTextColor(Color.YELLOW)
-            else -> cell!!.setTextColor(Color.BLUE)
+            else -> cell!!.setTextColor(Color.DKGRAY)
         }
     }
 
@@ -213,12 +213,13 @@ open class GameActivity : AppCompatActivity(), CoroutineScope {
         coroutineContext.cancel()
     }
 
-    public fun onDialogResult(resultDialog: String) {
+    fun onDialogResult(resultDialog: String) {
         launch {
             val database = HighScoreDatabase.getInstance(application)
             val highScoreDao = database.highScoreDao
+            val score = viewModel.getScore() + mines*10 - ui.chronometer2.drawingTime/100
             var highScore = HighScore(resultDialog, "$height X $width", ui.minesNumber.text.toString().toInt(),
-                    ui.chronometer2.text.toString(), viewModel.getScore())
+                    ui.chronometer2.text.toString(), score.toInt())
             highScoreDao.insertAll(highScore)
         }
     }
